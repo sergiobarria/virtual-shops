@@ -623,6 +623,11 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
+"@tabler/icons@^1.83.1":
+  version "1.83.1"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-1.83.1.tgz#7e59f4aebcf19b029afd7454164ac3aa8d47f57c"
+  integrity sha512-xJi+59SEIoa3ApbIu81uivmf7Byp9zexoclMlJedBUJGm8vJOeh5PHZFa9k2a/mBnVFccMvJrWpEKbYg0jn1ew==
+
 "@tanstack/match-sorter-utils@^8.0.0-alpha.82":
   version "8.1.1"
   resolved "https://registry.npmjs.org/@tanstack/match-sorter-utils/-/match-sorter-utils-8.1.1.tgz"

@@ -5,6 +5,11 @@ module.exports = {
   },
   extends: ['plugin:react/recommended', 'standard', 'eslint-config-prettier'],
   parser: '@typescript-eslint/parser',
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
   parserOptions: {
     ecmaFeatures: {
       jsx: true,

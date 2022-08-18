@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@/src': resolvePath('src'),
+      src: resolvePath('src'),
     },
   },
   server: {

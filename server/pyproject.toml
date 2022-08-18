@@ -9,6 +9,8 @@ license = "MIT"
 python = "^3.10"
 Django = "^4.1"
 django-ninja = "^0.19.1"
+cloudinary = "^1.29.0"
+python-dotenv = "^0.20.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"

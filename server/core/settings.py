@@ -9,8 +9,16 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+import dj_database_url
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-@*!t&&l0evr*hp@#80mkchpgj+@f@i$xb#d!i22vl1%muh@f&i"
+SECRET_KEY = SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,6 +46,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third party apps
+    "ninja",
+    "storages",
     # Local apps
     "api",
 ]
@@ -77,10 +87,12 @@ WSGI_APPLICATION = "core.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.config(
+        default="postgresql://postgres:postgres@localhost:5432/virtual_shops"
+    )
+    #     # "ENGINE": "django.db.backends.sqlite3",
+    #     # "NAME": BASE_DIR / "db.sqlite3",
+    # }
 }
 
 
@@ -118,9 +130,37 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+# STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# ------------------------------------------------------------------------------
+# CUSTOM SETTINGS
+NINJA_PAGINATION_PER_PAGE = 10
+
+# ------------------------------------------------------------------------------
+# THIRD-PARTY APPS SETTINGS
+# Digital Ocean Spaces
+AWS_ACCESS_KEY_ID = str(os.getenv("AWS_ACCESS_KEY_ID"))
+AWS_SECRET_ACCESS_KEY = str(os.getenv("AWS_SECRET_ACCESS_KEY"))
+AWS_STORAGE_BUCKET_NAME = str(os.getenv("AWS_STORAGE_BUCKET_NAME"))
+AWS_S3_REGION_NAME = str(os.getenv("AWS_S3_REGION_NAME"))
+AWS_S3_ENDPOINT_URL = f"https://{AWS_S3_REGION_NAME}.digitaloceanspaces.com"
+AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
+
+# Static files (CSS, JavaScript, Images) Settings
+AWS_STATIC_LOCATION = "static"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+STATIC_URL = "%s/%s/" % (AWS_S3_ENDPOINT_URL, AWS_STATIC_LOCATION)
+STATICFILES_STORAGE = "core.storage_backends.StaticStorage"
+
+# Media Settings
+AWS_MEDIA_LOCATION = "media"
+PUBLIC_MEDIA_LOCATION = "media"
+MEDIA_URL = "%s/%s/" % (AWS_S3_ENDPOINT_URL, AWS_MEDIA_LOCATION)
+DEFAULT_FILE_STORAGE = "core.storage_backends.PublicMediaStorage"

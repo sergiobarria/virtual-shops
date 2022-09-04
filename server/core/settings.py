@@ -143,24 +143,10 @@ NINJA_PAGINATION_PER_PAGE = 10
 
 # ------------------------------------------------------------------------------
 # THIRD-PARTY APPS SETTINGS
-# Digital Ocean Spaces
+# AWS S3
 AWS_ACCESS_KEY_ID = str(os.getenv("AWS_ACCESS_KEY_ID"))
 AWS_SECRET_ACCESS_KEY = str(os.getenv("AWS_SECRET_ACCESS_KEY"))
 AWS_STORAGE_BUCKET_NAME = str(os.getenv("AWS_STORAGE_BUCKET_NAME"))
-AWS_S3_REGION_NAME = str(os.getenv("AWS_S3_REGION_NAME"))
-AWS_S3_ENDPOINT_URL = f"https://{AWS_S3_REGION_NAME}.digitaloceanspaces.com"
-AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
+AWS_QUERYSTRING_AUTH = False
 
-# Static files (CSS, JavaScript, Images) Settings
-AWS_STATIC_LOCATION = "static"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
-STATIC_URL = "%s/%s/" % (AWS_S3_ENDPOINT_URL, AWS_STATIC_LOCATION)
-STATICFILES_STORAGE = "core.storage_backends.StaticStorage"
-
-# Media Settings
-AWS_MEDIA_LOCATION = "media"
-PUBLIC_MEDIA_LOCATION = "media"
-MEDIA_URL = "%s/%s/" % (AWS_S3_ENDPOINT_URL, AWS_MEDIA_LOCATION)
 DEFAULT_FILE_STORAGE = "core.storage_backends.PublicMediaStorage"

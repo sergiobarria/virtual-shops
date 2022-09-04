@@ -33,7 +33,7 @@ class Command(BaseCommand):
             filename = img_file.split("/")[-1]
             del product["image"]
 
-            # Upload image to Digital Ocean Space and save url to db
+            # Upload image to AWS S3 and save url to db
             with open(BASE_URL / img_file, "rb") as f:
                 media_storage.save(filename, f)
                 file_url = media_storage.url(filename)
